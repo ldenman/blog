@@ -1,0 +1,1029 @@
+#+HUGO_BASE_DIR: ../blog
+* Pages
+  :PROPERTIES:
+  :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :noauthor true :nocomment true :nodate true :nopaging true :noread true
+  :EXPORT_HUGO_MENU: :menu main
+  :EXPORT_HUGO_TITLE: hmm
+  :EXPORT_HUGO_SECTION: pages
+  :EXPORT_HUGO_WEIGHT: auto
+  :END:
+** Chirps
+   :PROPERTIES:
+   :EXPORT_FILE_NAME: chirps
+   :EXPORT_HUGO_TYPE: mylayout
+   :EXPORT_HUGO_LAYOUT: speciallayout
+   :END:
+*** <2018-04-09 Mon>
+I started toying with overtone, a music instrument written in
+Clojure. My intention is to be able to generate a simple metronome,
+some drones, along with scales.
+*** <2018-03-23 Fri 17:53>
+How long should you wait with an eye twitch before seeing your doctor?
+*** <2018-03-21 Wed 18:27>
+I'm looking forward to the PDX Emacs meetup tonight. I'll be sharing my ox-hugo setup.
+*** <2018-03-20 Tue>
+    Taco :taco: tuesday. :taco:
+*** <2018-03-19 Mon 21:13>
+I remember back when I had never used emacs. I did try once, but
+became frustrated as I didn't know how to exit (C-x C-s OR
+M-x save-buffers-kill-emacs). But now, I rarely ever want to leave.
+* Posts
+  :PROPERTIES:
+#  :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :noauthor true :nocomment true :nodate true :nopaging true :noread true
+  :EXPORT_HUGO_MENU: :menu main
+  :EXPORT_HUGO_SECTION: posts
+  :EXPORT_HUGO_WEIGHT: auto
+  :END:
+** Lad's guide to elisp
+   :PROPERTIES:
+   :EXPORT_FILE_NAME: elisp-guide
+   :EXPORT_DATE: <2018-03-19 Mon 22:08>
+   :EXPORT_HUGO_DRAFT: true
+   :END:
+
+*** What's /in/ a name?
+
+Once thing we can all appreciate is naming things. The name stands in
+the place for an individual, a place, etc. Some names are so powerful
+they must never be uttered. 
+
+The point is that names represent, well, anything we
+can imagine. In terms of e-lisp programming, a synonym for 'name' is
+'*symbol*'.
+
+
+#+BEGIN_SRC elisp
+Ada
+John
+#+END_SRC
+
+John and Ada are symbols for /something/, whatever you'd like.
+
+What if your 'something', was /nothing/? Imagine
+asking a stranger "Excuse me, Where is Ada?". They might reply with a
+shrug or blank stare. They don't know who Ada is; "Ada" means nothing
+to them. 
+
+In elisp lingo, the symbol 'Ada' has no associated *value*. If
+we asked the computer about Ada, it would reply with this message:
+
+#+BEGIN_EXAMPLE
+Symbol’s value as variable is void: Ada
+#+END_EXAMPLE
+
+Ada means nothing to the computer which is actually rather sad, but
+it's fine. Here's some symbols you and the computer recognize:
+
+  #+BEGIN_EXAMPLE
+    +  -  *  /
+  #+END_EXAMPLE
+
+Imagine asking a close friend to sum some numbers, how would you ask?
+
+  #+BEGIN_EXAMPLE
+  "Hey John, what's the sum of 42 and 24?"
+  #+END_EXAMPLE
+
+OR
+
+  #+BEGIN_EXAMPLE
+  "Hey, John, what is 42 plus 24?"
+  #+END_EXAMPLE
+
+Maybe you're in a library so you have to write it on a 3x5. Which way is correct?
+
+  #+BEGIN_EXAMPLE
+  sum of 42 and 24
+  #+END_EXAMPLE
+
+  #+BEGIN_EXAMPLE
+  42 plus 24
+  #+END_EXAMPLE
+
+Maybe you only know how to use math symbols and numbers. What's the difference?
+
+  #+BEGIN_EXAMPLE
+  + 42 24
+  #+END_EXAMPLE
+  #+BEGIN_EXAMPLE
+  42 + 24
+  #+END_EXAMPLE
+
+*The plus symbol moves!* 
+
+The first example uses [[http://www.cs.man.ac.uk/~pjj/cs212/fix.html][prefix]] notation while second uses [[http://www.cs.man.ac.uk/~pjj/cs212/fix.html][infix]] notation.
+
+The computer uses this prefix notation, so let's ask it. We would write: 
+
+  #+BEGIN_EXAMPLE
+  (+ 42 24)
+  #+END_EXAMPLE
+
+I added parenthesis because that's tells the computer to start the
+addition program or rather *function*. Without the parenthesis it
+won't work.
+
+  #+BEGIN_EXAMPLE
+	|--|-- OPERANDS
+    (+ 42 24)
+     |
+     - OPERATOR
+  #+END_EXAMPLE
+
+The same concept works for /any other operator/.
+
+  | LISP      | ENGLISH                  |
+  | (- 42 24) | subtract 24 from 42      |
+  | (* 42 24) | the product of 42 and 24 |
+  | (/ 42 24) | 42 divided by 24         |
+
+**** Hold on, though! We were talking about names, how'd we get to math, where's Ada?
+
+Easy. To the computer, these are symbols: 
+#+BEGIN_SRC sh
++ - * /
+#+END_SRC
+
+And you now know that symbols are names. And names can have arbitrary
+meanings or *values*. The computer is like us, not exactly, but it does
+know about math, because math is important for so many people.
+
+But, the computer doesn't know anything about Ada or John like this (mind your parenthese):
+
+#+BEGIN_SRC elisp
+(Ada)
+#+END_SRC
+#+BEGIN_SRC elisp
+(John)
+#+END_SRC
+It responds with this:
+#+BEGIN_EXAMPLE
+Symbol’s function definition is void: Ada
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+Symbol’s function definition is void: John
+#+END_EXAMPLE
+
+The symbol's function definition is absolutely nothing. The computer has no definition, no value, no behavior for the symbols Ada and John.
+
+**** Variables vs Functions
+To the computer, a symbol can have certain kinds of meanings or values
+associated with it. One kind is a *variable* and another kind is a *function*.
+
+- Read: [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Symbols.html][What is a Symbol]], [[https://www.gnu.org/software/emacs/manual/html_node/elisp/What-Is-a-Function.html#What-Is-a-Function][What is a Function]], and [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Variables.html][What are Variables]]
+
+ |----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | Term     | Definition                                                                                                                                                                                           |
+ |----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | Symbol   | An object with a unique name.                                                                                                                                                                        |
+ | Variable | A name used in a program to stand for a value. In Lisp, each variable is represented by a Lisp symbol (see Symbols). The use of a symbol as a variable is independent of its use as a function name. |
+ | Function | A rule for carrying out a computation given input values called arguments.   it is an object which can optionally be associated with a symbol.                                                       |
+ |----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+**** Moving on
+     Don't worry if you are confused. The ideas presented will be
+     fundamental to everything else in the guide; it will become
+     natural as we proceed to commune with the machine. 
+
+     So far we have explored computing simple math by using prefix
+     notation and math symbols (names). We also discovered that names
+     are associated with variables and functions. And so, we can
+     determine that to the computer, the math symbols we used are just
+     names associated with algebraic functions.
+
+     For now, we'll leave Ada and John behind and turn to our dead
+     friend George who is working on putting together a shopping list.
+
+*** Data                                                           :noexport:
+- symbols
+- strings
+- numbers
+- true
+- false
+- ...
+
+*** Naming                                                         :noexport:
+- defun
+- setq
+- defvar
+- defconst
+
+*** Combining lists                                                :noexport:
+- cons
+
+*** Deconstructing lists                                           :noexport:
+- car
+- cdr
+
+*** Equality                                                       :noexport:
+
+** Infinite Bash History with Git
+   :PROPERTIES:
+   :EXPORT_FILE_NAME: bash-infinity
+   :EXPORT_DATE: <2018-03-20 Tue 19:13>
+   :EXPORT_HUGO_DRAFT: false
+   :EXPORT_HUGO_CATEGORIES: bash
+   :END:
+
+My goal is to start keep a log of commands over a long period. It
+seems useful to me. I've come up with a strategy for one machine, but
+I'd like to replicate it to others eventually. So, how?
+
+- Configure Bash to store commands
+- Configure Git repo
+- Create a script to copy the history file into the repo and commit
+- Configure a timer
+
+*** Configure Bash to store history forever.
+
+I found a [[http://jesrui.sdf-eu.org/remember-all-your-bash-history-forever.html][helpful post]] describing the bash configuration you'd need
+for infinite history. 
+
+#+BEGIN_SRC sh
+## Place this in ~/.bashrc
+HISTTIMEFORMAT='%F %T '
+HISTFILESIZE=-1
+HISTSIZE=-1
+HISTCONTROL=ignoredups
+HISTIGNORE=?:??
+shopt -s histappend                 # append to history, don't overwrite it
+# attempt to save all lines of a multiple-line command in the same history entry
+shopt -s cmdhist
+# save multi-line commands to the history with embedded newlines
+shopt -s lithist
+#+END_SRC
+
+*** Initialize the git repository
+#+BEGIN_SRC sh
+mkdir -p $HOME/bash-infinity/$USER@$HOSTNAME/
+cd bash-infinity
+git init
+#+END_SRC
+
+*** Sync and commit
+#+BEGIN_SRC sh
+cp $HISTFILE $HOME/bash-infinity/$USER@$HOSTNAME/
+git add .
+git commit -m "initial bash infinity"
+#+END_SRC
+
+*** Put it on a timer
+Modify the crontab file with:
+
+#+BEGIN_SRC sh
+crontab -e
+#+END_SRC
+Add this to your crontab:
+
+**** Modify crontab
+This cronjob is configured to run every hour.
+
+#+BEGIN_SRC sh
+  ,* */1 * * * HISTFILE=/home/$USER/.bash_history /usr/local/bin/bash-infinity.sh
+#+END_SRC
+
+**** Bash-infinity.sh
+#+BEGIN_SRC sh
+#!/bin/bash 
+## Place in: /usr/local/bin/bash-infinity.sh
+
+# Bash doesn't load HISTFILE by default. You must supply it manually.
+if ! [ -v HISTFILE ]; then
+    echo "No HISTFILE environment variable set. exiting."
+    exit 1
+fi    
+
+if ! [ -d "$HOME/bash-infinity/$USER@$HOSTNAME" ]; then
+  mkdir -p $HOME/bash-infinity/$USER@$HOSTNAME/
+fi
+
+cd $HOME/bash-infinity
+
+if ! [ -d "$HOME/bash-infinity/.git" ]; then
+  git init
+fi
+
+cp $HISTFILE $HOME/bash-infinity/$USER@$HOSTNAME/
+
+git add $USER@$HOSTNAME
+
+git commit -m "update bash infinity" -- $USER@$HOSTNAME
+
+#+END_SRC
+
+#+BEGIN_SRC sh
+chmod +x /usr/local/bin/bash-infinity.sh
+#+END_SRC
+
+** Blogging with Hugo and OX-Hugo
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: bloggin-hugo-ox-hugo
+  :EXPORT_DATE: <2018-03-21 Wed 15:43>
+  :EXPORT_HUGO_DRAFT: false
+  :EXPORT_HUGO_CATEGORIES: blog
+  :EXPORT_HUGO_TAGS: blog-meta hugo ox-hugo org-mode emacs
+  :END:
+
+*** Part 1: Blog Setup
+**** Download Hugo
+#+BEGIN_SRC sh
+pacman -S hugo
+#+END_SRC
+
+**** Initialize Project
+
+#+BEGIN_SRC sh
+hugo new site test-blog
+cd test-blog
+git init
+#+END_SRC
+
+**** Download a Theme (YMMV)
+This seems like a clean, simple [[https://github.com/goodroot/hugo-classic][theme]].
+
+***** You can use a submodule like this:
+#+BEGIN_SRC sh
+git submodule add https://github.com/goodroot/hugo-classic.git themes/hugo-classic
+#+END_SRC
+OR 
+
+*****  Or you can just clone it 
+#+BEGIN_SRC sh
+mkdir themes/
+git clone git@github.com:goodroot/hugo-classic.git themes/hugo-classic
+#+END_SRC
+
+**** Copy the necessary files from the theme
+
+*Warning:* This will destroy your config.toml file, so, optionally back yours up. 
+
+#+BEGIN_SRC sh
+cp -r themes/hugo-classic/exampleSite/* .
+#+END_SRC
+
+*** Part 2: Emacs/Org-Mode/OX-Hugo  integration
+
+**** Installing ox-hugo
+Add the following to your .emacs or ~/.emacs.d/init.el file.
+#+BEGIN_SRC elisp
+(use-package ox-hugo :ensure t :after ox)
+#+END_SRC
+
+**** Configuring Ox-hugo
+Create a new org-mode file to represent your blog. This file should
+live in the root of the blog.
+
+#+BEGIN_SRC sh
+touch blog.org
+#+END_SRC
+
+**** Create your blog content in org-mode
+Here's a starter template for the blog.org file: 
+
+#+BEGIN_SRC org
+  ,#+HUGO_BASE_DIR: .
+  ,* Pages
+    :PROPERTIES:
+    :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :noauthor true :nocomment true :nodate true :nopaging true :noread true
+    :EXPORT_HUGO_MENU: :menu main
+    :EXPORT_HUGO_TITLE: hmm
+    :EXPORT_HUGO_SECTION: pages
+    :EXPORT_HUGO_WEIGHT: auto
+    :END:
+  ,** About Page
+     :PROPERTIES:
+     :EXPORT_FILE_NAME: about
+     :END:
+  This is my about page.
+  ,* Posts
+    :PROPERTIES:
+    # :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :noauthor true :nocomment true :nodate true :nopaging true :noread true
+    :EXPORT_HUGO_MENU: :menu main
+    :EXPORT_HUGO_SECTION: posts
+    :EXPORT_HUGO_WEIGHT: auto
+    :END:
+  ,** First Post
+     :PROPERTIES:
+     :EXPORT_FILE_NAME: some-file-name
+     :EXPORT_DATE: <2018-03-19 Mon 22:08>
+     :EXPORT_HUGO_DRAFT: true
+     :END:
+#+END_SRC
+
+**** Export your content to hugo with ox-hugo
+When editing the blog.org file, export it through org-export-dispatch:
+
+This will export all the content from the blog.org file into the hugo project.
+
+#+BEGIN_EXAMPLE
+C-c C-e H A
+#+END_EXAMPLE
+
+Sometimes you just want to export one post/page (aka subtree in org-mode terms):
+
+#+BEGIN_EXAMPLE
+C-c C-e H H
+#+END_EXAMPLE
+
+
+*** Start the Server
+At this point, you 
+#+BEGIN_SRC sh
+hugo server -D
+#+END_SRC
+
+*** Extras
+
+**** MathJax
+
+If you'd like to have nice equation support, check this link: https://ox-hugo.scripter.co/doc/equations/
+
+Here's an example of a LaTeX formatted equation: \( E = -J \sum_{i=1}^N s_i s_{i+1} \)
+
+Add this to the footer.html to get MathJax support:
+#+BEGIN_SRC js
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     displayAlign: "center",
+     displayIndent: "0em",
+
+     "HTML-CSS": { scale: 100,
+                   linebreaks: { automatic: "false" },
+                   webFont: "TeX"
+     },
+     SVG: {scale: 100,
+           linebreaks: { automatic: "false" },
+           font: "TeX"},
+     NativeMML: {scale: 100},
+     TeX: { equationNumbers: {autoNumber: "AMS"},
+            MultLineWidth: "85%",
+            TagSide: "right",
+            TagIndent: ".8em"
+     }
+ });
+</script>
+<!-- https://gohugo.io/content-management/formats/#mathjax-with-hugo -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+#+END_SRC
+
+** Emacs and Tramp
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: tramp
+  :EXPORT_DATE: <2018-03-20 Tue>
+  :EXPORT_HUGO_DRAFT: false
+  :EXPORT_HUGO_CATEGORIES: emacs
+  :EXPORT_HUGO_TAGS: tramp emacs ssh
+  :END:
+*** /su: or /sudo: on remote hosts with emacs
+- https://stackoverflow.com/questions/2177687/open-file-via-ssh-and-sudo-with-emacs
+#+BEGIN_EXAMPLE
+C-x C-f /ssh:you@remotehost|sudo:remotehost:/path/to/file <RET>
+#+END_EXAMPLE
+** Cartesian Product 
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: cartesian-product
+  :EXPORT_DATE: <2018-03-29 Thu>
+  :EXPORT_HUGO_DRAFT: false
+  :EXPORT_HUGO_CATEGORIES: lisp
+  :EXPORT_HUGO_TAGS: elisp common-lisp mapcan mapcar
+  :END:
+
+A question came up about how to compute the cross-product of sets. Take this example, we want to turn this:
+
+#+BEGIN_EXAMPLE
+((chocolate strawberry) (sprinkle oreo))
+#+END_EXAMPLE
+
+Into this:
+
+#+BEGIN_EXAMPLE
+((chocolate sprinkle) (chocolate oreo) (strawberry sprinkle) (strawberry oreo))
+#+END_EXAMPLE
+
+Take some time to think about you might solve it.
+
+#+BEGIN_EXPORT html
+<hr />
+#+END_EXPORT
+
+Okay, now that you've thought some about it let's look at one solution. Shout out to /capablemonkey/ on Github for providing the code. 
+
+#+BEGIN_SRC emacs-lisp
+;; https://gist.github.com/capablemonkey/4133438ba7043af94691a2b54d997e8b
+(defun cartesian-product (a b)
+  (mapcan
+    (lambda (item-from-a)
+      (mapcar
+        (lambda (item-from-b)
+          (if (listp item-from-a)
+            (append item-from-a (list item-from-b))
+            (list item-from-a item-from-b)))
+        b))
+    a))
+#+END_SRC
+
+Each function shown above has a definition following so you can understand what's going on after studying a bit.
+
+Let's look at `mapcan`.
+
+*mapcan* :: mapcan is like mapcar, except that the results of applying function are combined into a list by the use of nconc rather than list.
+
+*nconc* (called from within mapcan) ::  Returns a list that is the concatenation of lists. If no lists are supplied, (nconc) returns nil.
+
+  Here's an example that hopefully clears up /nconc/.
+
+  #+BEGIN_SRC elisp
+  (nconc '(1) nil '(2) nil) ;;=> (1 2)
+  #+END_SRC
+
+
+*lambda* :: the result of evaluating the lambda expression is the expression itself.  The lambda expression may then be treated as a function, i.e., stored as the function value of a symbol, passed to ‘mapcar’, etc.
+
+#+BEGIN_SRC emacs-lisp
+  (mapcan
+   (lambda (item-from-a)
+     ...
+     )
+   a)
+#+END_SRC
+
+
+Then we use _*mapcar*_...
+
+*mapcar* :: [[http://www.lispworks.com/documentation/HyperSpec/Body/f_mapc_.htm#mapcon][mapcar]] operates on successive elements of the lists. function is applied to the first element of each list, then to the second element of each list, and so on. The iteration terminates when the shortest list runs out, and excess elements in other lists are ignored. The value returned by mapcar is a list of the results of successive calls to function. 
+
+
+#+BEGIN_SRC emacs-lisp
+(mapcar
+
+(lambda (item-from-b)
+  ...
+)
+b)
+#+END_SRC
+
+
+For each /item-from-b/, we ask if /item-from-a/ is a list. If so, append item-from-b onto item-from-a. Otherwise, make a list with /item-from-a/ and /item-from-b/.
+
+*listp* :: Return t if OBJECT is a list, that is, a cons cell or nil. Otherwise, return nil.
+
+*append* :: Concatenate all the arguments and make the result a list.
+
+*list* :: Return a newly created list with specified arguments as elements. Any number of arguments, even zero arguments, are allowed.
+
+#+BEGIN_SRC elisp
+(if (listp item-from-a)
+            (append item-from-a (list item-from-b))
+            (list item-from-a item-from-b))
+#+END_SRC
+
+Let's try an example:
+
+#+BEGIN_SRC emacs-lisp :results verbatim :exports both
+(cartesian-product '(a b) '(c d)) 
+#+END_SRC
+
+#+RESULTS:
+: ((a c) (a d) (b c) (b d))
+
+
+We can support any number of lists by leveraging the *reduce* function.
+
+#+BEGIN_SRC emacs-lisp
+(reduce #'cartesian-product '((chocolate strawberry) (sprinkle oreo) (smoothie cake)))
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+((chocolate sprinkle smoothie) 
+ (chocolate sprinkle cake) 
+ (chocolate oreo smoothie) 
+ (chocolate oreo cake) 
+ (strawberry sprinkle smoothie) 
+ (strawberry sprinkle cake) 
+ (strawberry oreo smoothie) 
+ (strawberry oreo cake))
+#+END_EXAMPLE
+
+
+
+LISP provides lots of useful tools that when put together become very delicious. I mean, powerful.
+** Tracking unorganized time
+  :PROPERTIES:
+    :EXPORT_FILE_NAME: unorganized-time
+    :EXPORT_DATE: <2018-04-09 Mon>
+    :EXPORT_HUGO_DRAFT: false
+    :EXPORT_HUGO_CATEGORIES: emacs
+    :EXPORT_HUGO_TAGS: org-mode
+    :END:
+
+Have you heard of org-mode? It has markdown like capabilities with
+additional features such as time tracking and a calendar. And a lot
+more!
+
+I'm thinking about tracking unorganized time within GNU Emacs. In org-mode this is a task called "Tracking unorganized time". 
+It's a task for tracking empty time; the time when I'm not tracking other
+stuff:
+
+#+BEGIN_SRC org
+,* Tracking unorganized time
+:PROPERTIES:
+:ID: empty-time-tracker
+:END:
+#+END_SRC
+
+My idea is that by logging untracked time, I'll be able to better
+determine where I can improve. I find that setting a timer can be a
+good motivator. So, why not a timer for untracked time, too? Just
+maybe it will motivate me by reminding me it's always ticking, that I
+should do something more productive -- and log it.
+
+*** Programming a function to clock in 
+
+#+BEGIN_SRC elisp
+(org-id-find "empty-time-tracker")
+#+END_SRC
+
+#+BEGIN_QUOTE
+org-id-find is an autoloaded compiled Lisp function in ‘org-id.el’.
+
+(org-id-find ID &optional MARKERP)
+
+Return the location of the entry with the id ID.
+The return value is a cons cell (file-name . position), or nil
+if there is no entry with that ID.
+With optional argument MARKERP, return the position as a new marker.
+#+END_QUOTE
+
+Programatic clock in like this:
+
+#+BEGIN_SRC elisp
+(org-clock-in "empty-time-tracker")
+#+END_SRC
+
+#+BEGIN_QUOTE
+org-clock-in is an interactive autoloaded compiled Lisp function in
+‘org-clock.el’.
+
+It is bound to C-c C-x TAB, <menu-bar> <Org> <Logging work> <Clock
+in>.
+
+(org-clock-in &optional SELECT START-TIME)
+
+Start the clock on the current item.
+
+If necessary, clock-out of the currently active clock.
+
+With a ‘C-u’ prefix argument SELECT, offer a list of recently clocked
+tasks to clock into.
+
+When SELECT is ‘C-u C-u’, clock into the current task and mark it as
+the default task, a special task that will always be offered in the
+clocking selection, associated with the letter ‘d’.
+
+When SELECT is ‘C-u C-u C-u’, clock in by using the last clock-out
+time as the start time.  See ‘org-clock-continuously’ to make this
+the default behavior.
+#+END_QUOTE
+
+Which yields a running clock on the given task ID. For example:
+
+#+BEGIN_SRC org
+,* Tracking unorganized time
+:PROPERTIES:
+:ID: empty-time-tracker
+:END:
+:LOGBOOK:
+CLOCK: [2018-04-09 Mon 18:38]--[2018-04-09 Mon 19:02] =>  0:24
+:END:
+#+END_SRC
+
+Here's what I came up with in a function:
+
+#+BEGIN_SRC elisp
+(lambda ()
+  (if (not (org-clocking-p))
+    (org-with-point-at (org-id-find "empty-time-tracker" 'marker)
+      (org-clock-in "empty-time-tracker"))))
+#+END_SRC
+
+#+BEGIN_QUOTE
+org-clocking-p is a compiled Lisp function in ‘org-clock.el’.
+
+(org-clocking-p)
+
+Return t when clocking a task.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+org-with-point-at is a Lisp macro in ‘org-macs.el’.
+
+(org-with-point-at POM &rest BODY)
+
+Move to buffer and point of point-or-marker POM for the duration of BODY.
+#+END_QUOTE
+*** Putting it on a timer 
+
+Every 30 minutes the code asks whether another task is currently being clocked.
+
+When no other task is being clocked, the code starts clocking the "empty-time-tracker" task.
+
+#+BEGIN_SRC elisp
+(run-with-timer 0 (* 30 60)
+  (lambda ()
+    (if (not (org-clocking-p))
+      (org-with-point-at (org-id-find "empty-time-tracker" 'marker)
+	(org-clock-in "empty-time-tracker")))))
+#+END_SRC
+
+#+BEGIN_QUOTE
+run-with-timer is an interactive compiled Lisp function in ‘timer.el’.
+
+(run-with-timer SECS REPEAT FUNCTION &rest ARGS)
+
+Perform an action after a delay of SECS seconds.
+Repeat the action every REPEAT seconds, if REPEAT is non-nil.
+SECS and REPEAT may be integers or floating point numbers.
+The action is to call FUNCTION with arguments ARGS.
+
+This function returns a timer object which you can use in ‘cancel-timer’.
+#+END_QUOTE
+
+#+RESULTS:
+
+*** Gotchyas
+You will need to define `org-agenda-files` because `org-find-id` uses that value to find tasks. For example:
+
+#+BEGIN_SRC elisp
+(setq org-agenda-files '("~/tasks.org" "~/path/to/another.org"))
+#+END_SRC
+
+*** Copy pasta
+Here's a slightly cleaner version suitable for your init.el or ~/.emacs file:
+
+#+BEGIN_SRC elisp
+(require 'org)
+(require 'org-clock)
+
+(defvar ld/unorganized-time-id "empty-time-tracker")
+(defun ld/clock-in-unorganized-time ()
+  (interactive)
+  (if (not (org-clocking-p))
+      (org-with-point-at (org-id-find ld/unorganized-time-id 'marker)
+	(org-clock-in ld/unorganized-time-id))))
+(run-with-timer 0 (* 30 60) 'ld/clock-in-unorganized-time) ;; every half hour.
+#+END_SRC
+
+*** References
+- [[http://doc.norang.ca/org-mode.html#ClockSetup][The 9.1 Clock Setup section]]
+- [[https://stackoverflow.com/questions/3841459/how-to-periodically-run-a-task-within-emacs][https://stackoverflow.com/questions/3841459/how-to-periodically-run-a-task-within-emacs]]
+#+RESULTS:
+
+** Emacs extension: eval-in-repl
+  :PROPERTIES:
+    :EXPORT_FILE_NAME: eval-in-repl
+    :EXPORT_DATE: <2018-04-10 Tue>
+    :EXPORT_HUGO_DRAFT: false
+    :EXPORT_HUGO_CATEGORIES: emacs bash
+    :EXPORT_HUGO_TAGS: eval-in-repl 
+    :END:
+
+It's feels very fast to evaluate expressions in GNU Emacs with `C-x
+C-e`. It would be nice to evaluate bash expressions with such speed. Enter [[https://github.com/kaz-yos/eval-in-repl][eval-in-repl]].
+
+First, add this snippet to the config file:
+   #+BEGIN_SRC elisp
+     (use-package eval-in-repl :ensure t
+       :config
+       (define-key sh-mode-map (kbd "<C-return>") 'eir-eval-in-shell))
+   #+END_SRC
+
+Now, open a shell script or a new ".sh" file. This should activate the
+`sh-mode`. Then, press `C-return` while a shell expression is under the cursor.
+
+The package supports other language as well. For now, I'll just try bash.
+** Building musical scales
+  :PROPERTIES:
+    :EXPORT_FILE_NAME: musical-scales
+    :EXPORT_DATE: <2018-04-17 Tue>
+    :EXPORT_HUGO_DRAFT: false
+    :EXPORT_HUGO_CATEGORIES: lisp music
+    :EXPORT_HUGO_TAGS: recursion cons car cdr mapcar
+    :END:
+
+The code below was an exploration in building musical scales based on
+intervals within the chromatic scale.
+
+One interesting aspect is the cycling of the chromatic scale on each
+recursive function call. Append is used to combine the last note in
+the chromatic scale with a fresh chromatic scale. This makes the
+chromatic scale rotate infinitely.
+
+#+BEGIN_SRC emacs-lisp
+  (setq chromatic-scale '(C C\# D D\# E F F\# G G\# A A\# B))
+  (setq scale-data '((scales (has-sharps (C C\# D D\# E F F\# G G\# A A\# B))
+			     (has-flats (C Db D Eb E F Gb G Ab A Bb B))
+			     (no-flats (C nil D nil E F nil G nil A nil B))
+			     (pentatonic-major
+			      (no-flats (C F G))
+			      (has-flats (Eb Bb Gb Ab))
+			      (has-sharps (C\# D D\# E F\# G\# A A\# B)))
+			     (pentatonic-minor
+			      (no-flats (D E A))
+			      (has-flats (C D F G))
+			      (has-sharps (A\# B C\# D\# F\# G\#)))
+			     (major
+			      (no-flats (C))
+			      (has-flats (Gb Db Ab Eb Bb F))
+			      (has-sharps (C\# G G\# D D\# A A\# E B F\#)))
+			     (minor
+			      (no-flats (A))
+			      (has-flats (Eb Bb F C G D))
+			      (has-sharps (A\# D\# E B F\# C\# G\#))))
+		     (intervals (major (r w w h w w w h))
+				(minor (r w h w w h w w))
+				(pentatonic-minor (r wh w w wh))
+				(pentatonic-major (r w w wh w)))))
+
+  (defun find-nested (l s)
+    (when l
+      (cond
+       ((eq (car l) s) s)
+       (t
+	(cond
+	 ((atom (car l)) (find-nested (cdr l) s))
+	 ((listp (car l)) (find-nested (append (car l) (cdr l)) s)))))))
+
+  (defun determine-notation-helper (list key)
+    (when list
+      (if (find-nested (car list) key)
+	  (car (car list))
+	(determine-notation-helper (cdr list) key))))
+
+  (defun determine-notation (key scale-type)
+    (determine-notation-helper (cdr (assoc scale-type (assoc 'scales scale-data))) key))
+
+  (defun make-chromatic-scale (key scale-type)
+    (let ((new-scale-type (determine-notation key scale-type)))
+      (let ((scale (set-scale (car (cdr (assoc new-scale-type (assoc 'scales scale-data)))) key)))
+	scale)))
+
+  (defun set-scale (base-scale key)
+    (cond
+     ((eq key (car base-scale)) base-scale)
+     (t (set-scale (append (cdr base-scale) (list (car base-scale))) key))))
+
+  (defun play-scale (key scale-type)
+    (play-scale-helper (make-chromatic-scale key scale-type)
+		       (make-chromatic-scale key scale-type)
+		       (car (cdr (assoc scale-type (assoc 'intervals scale-data))))
+		       key))
+
+  (defun play-scale-helper (base-scale my-chromatic-scale intervals key)
+    (when intervals
+      (cond
+       ((eq (car intervals) 'r)
+	(cons (car (set-scale base-scale key))
+	      (play-scale-helper
+	       base-scale
+	       (set-scale base-scale key) (cdr intervals) key)))
+       ((eq (car intervals) 'wh)
+	(cond
+	 ((null (car (cdr (cdr (cdr my-chromatic-scale)))))
+	  (play-scale-helper base-scale
+			     (append
+			      my-chromatic-scale
+			      (set-scale base-scale key)) intervals key))
+
+	 (t (cons (car (cdr (cdr (cdr my-chromatic-scale))))
+		  (play-scale-helper
+		   base-scale
+		   (cdr (cdr (cdr my-chromatic-scale)))
+		   (cdr intervals) key)))))
+       ((eq (car intervals) 'w)
+	(cond
+	 ((null (car (cdr (cdr my-chromatic-scale))))
+	  (play-scale-helper base-scale
+			     (append
+			      my-chromatic-scale
+			      (set-scale base-scale key)) intervals key))
+
+	 (t (cons (car (cdr (cdr my-chromatic-scale)))
+		  (play-scale-helper
+		   base-scale
+		   (cdr (cdr my-chromatic-scale))
+		   (cdr intervals) key)))))
+       ((eq (car intervals) 'h)
+	(cond
+	 ((null (car (cdr my-chromatic-scale)))
+	  (play-scale-helper base-scale (append
+					 my-chromatic-scale
+					 (set-scale base-scale key)) intervals key))
+	 (t (cons (car (cdr my-chromatic-scale))
+		  (play-scale-helper base-scale (cdr my-chromatic-scale) (cdr intervals) key) )))))))
+
+  (defun major-scale (key)
+    (play-scale key 'major))
+
+  (defun minor-scale (key)
+    (play-scale key 'minor))
+
+  (defun pentatonic-minor-scale (key)
+    (play-scale key 'pentatonic-minor))
+
+  (defun pentatonic-major-scale (key)
+    (play-scale key 'pentatonic-major))
+#+END_SRC
+
+#+RESULTS:
+: pentatonic-major-scale
+
+We can generate a list of the major scales by applying the major-scale function each notes in the chromatic scale.
+*** Major Scale
+
+#+BEGIN_SRC elisp :exports both
+(mapcar #'major-scale chromatic-scale)
+#+END_SRC
+
+#+RESULTS:
+| C  | D  | E  | F  | G  | A  | B  | C  |
+| C# | D# | F  | F# | G# | A# | C  | C# |
+| D  | E  | F# | G  | A  | B  | C# | D  |
+| D# | F  | G  | G# | A# | C  | D  | D# |
+| E  | F# | G# | A  | B  | C# | D# | E  |
+| F  | G  | A  | Bb | C  | D  | E  | F  |
+| F# | G# | A# | B  | C# | D# | F  | F# |
+| G  | A  | B  | C  | D  | E  | F# | G  |
+| G# | A# | C  | C# | D# | F  | G  | G# |
+| A  | B  | C# | D  | E  | F# | G# | A  |
+| A# | C  | D  | D# | F  | G  | A  | A# |
+| B  | C# | D# | E  | F# | G# | A# | B  |
+
+
+
+Or we can generate the minor scales using the same technique:
+
+
+*** Minor Scale
+
+#+BEGIN_SRC elisp :exports both
+(mapcar #'minor-scale chromatic-scale)
+#+END_SRC
+
+#+RESULTS:
+| C  | D  | Eb | F  | G  | Ab | Bb | C  |
+| C# | D# | E  | F# | G# | A  | B  | C# |
+| D  | E  | F  | G  | A  | Bb | C  | D  |
+| D# | F  | F# | G# | A# | B  | C# | D# |
+| E  | F# | G  | A  | B  | C  | D  | E  |
+| F  | G  | Ab | Bb | C  | Db | Eb | F  |
+| F# | G# | A  | B  | C# | D  | E  | F# |
+| G  | A  | Bb | C  | D  | Eb | F  | G  |
+| G# | A# | B  | C# | D# | E  | F# | G# |
+| A  | B  | C  | D  | E  | F  | G  | A  |
+| A# | C  | C# | D# | F  | F# | G# | A# |
+| B  | C# | D  | E  | F# | G  | A  | B  |
+
+
+
+
+*** Pentatonic Minor Scale
+#+BEGIN_SRC elisp :exports both
+(mapcar #'pentatonic-minor-scale chromatic-scale)
+#+END_SRC
+
+#+RESULTS:
+| C  | Eb | F  | G  | Bb |
+| C# | E  | F# | G# | B  |
+| D  | F  | G  | A  | C  |
+| D# | F# | G# | A# | C# |
+| E  | G  | A  | B  | D  |
+| F  | Ab | Bb | C  | Eb |
+| F# | A  | B  | C# | E  |
+| G  | Bb | C  | D  | F  |
+| G# | B  | C# | D# | F# |
+| A  | C  | D  | E  | G  |
+| A# | C# | D# | F  | G# |
+| B  | D  | E  | F# | A  |
+
+*** Pentatonic Major Scale
+#+BEGIN_SRC elisp :exports both
+(mapcar #'pentatonic-major-scale chromatic-scale)
+#+END_SRC
+
+#+RESULTS:
+| C  | D  | E  | G  | A  |
+| C# | D# | F  | G# | A# |
+| D  | E  | F# | A  | B  |
+| D# | F  | G  | A# | C  |
+| E  | F# | G# | B  | C# |
+| F  | G  | A  | C  | D  |
+| F# | G# | A# | C# | D# |
+| G  | A  | B  | D  | E  |
+| G# | A# | C  | D# | F  |
+| A  | B  | C# | E  | F# |
+| A# | C  | D  | F  | G  |
+| B  | C# | D# | F# | G# |
+
+

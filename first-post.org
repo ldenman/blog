@@ -1,0 +1,15 @@
+#+TITLE: Welcome to my blog
+#+DATE: <2018-03-17 Sat>
+#+AUTHOR: lad
+#+HUGO_BASE_DIR: ~/life/lakedenman.com/blog/
+#+HUGO_TAGS: blog-meta
+#+HUGO_SLUG: post-zero
+#+EMAIL: hello@lakedenman.com
+#+STARTUP: showall
+#+STARTUP: inlineimages
+
+This is a place for me to share tech info. I look forward to posting more soon.
+
+#+html: <style>.foo img { border:2px solid black; }</style>
+#+attr_html: :alt Go is fine though.
+[[file:http://emojis.slackmojis.com/emojis/images/1475875185/1223/party-dinosaur.gif]]

@@ -1,0 +1,154 @@
+#+TITLE: Emacs Init
+#+DATE: <2018-03-17 Sat 22:39>
+#+AUTHOR: lad
+#+DESCRIPTION: My emacs config
+#+HUGO_SLUG: emacs-config
+#+HUGO_TAGS:  config
+#+HUGO_CATEGORIES: emacs
+#+HUGO_CODE_FENCE: nil
+#+HUGO_BASE_DIR: ~/life/lakedenman.com/blog/
+#+EMAIL: hello@lakedenman.com
+#+STARTUP: showall
+#+STARTUP: inlineimages
+
+* Setup package repos
+#+BEGIN_SRC elisp
+  ;;;; Packages and their configurations
+  (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "https://melpa.org/packages/")
+	       t)
+
+  (add-to-list 'package-archives
+	       '("org" . "https://orgmode.org/elpa/")
+	       t)
+
+  (package-initialize)
+  (package-install 'use-package)
+#+END_SRC
+
+* Modifications
+[[#ladmods.el][Here]] is the "ladmods" module
+#+BEGIN_SRC elisp
+(use-package ladmods :load-path "ladmods")
+#+END_SRC
+
+* Packages
+- cider is for clojure editing
+- paredit is for navigating parens
+- ox-hugo is for the blog
+- org-drill-table is for converting tables to drills.
+- org-mode for everything
+- ascii-art-to-unicode just because.
+#+BEGIN_SRC emacs-lisp
+    (use-package cider :ensure t
+    :config
+    (setq cider-cljs-lein-repl
+	  "(do (require 'figwheel-sidecar.repl-api)
+	   (figwheel-sidecar.repl-api/start-figwheel!)
+	   (figwheel-sidecar.repl-api/cljs-repl))"))
+    (use-package paredit :ensure t)
+
+    (use-package ox-hugo :ensure t :after ox)
+
+    (use-package org-drill-table :ensure t)
+
+    (use-package org 
+    :ensure org-plus-contrib 
+    :pin org
+    :bind (("C-c l" . org-store-link)
+	     ("C-c a" . org-agenda)
+	     ("C-c c" . org-capture))
+      :config
+      (setq org-refile-targets '((nil :maxlevel . 9)
+				 (org-agenda-files :maxlevel . 9)))
+      (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
+      (setq org-refile-use-outline-path t)                  ; Show full paths for refiling
+    
+  )
+
+    (use-package ascii-art-to-unicode :ensure t)
+
+    (use-package haml-mode :ensure t)
+
+    (use-package emms :ensure t)
+
+#+END_SRC
+
+* Projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-global-mode 1)
+    (setq projectile-switch-project-action 'projectile-vc))
+#+END_SRC
+
+* Magit
+#+BEGIN_SRC elisp
+  (use-package magit
+    :ensure t
+    :config
+    (global-set-key (kbd "C-x g") 'magit-status))
+#+END_SRC
+
+* Multi-term
+#+BEGIN_SRC elisp
+  (use-package multi-term
+    :ensure t
+    :bind (("C-c t" . multi-term)))
+#+END_SRC
+
+* Ansi colors (optional)                                           :optional:
+#+BEGIN_SRC elisp
+  (use-package ansi-color
+    :config
+    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+    (defun colorize-compilation-buffer ()  
+      (toggle-read-only)  
+      (ansi-color-apply-on-region compilation-filter-start (point))  
+      (toggle-read-only))  
+    (defun display-ansi-colors ()
+      (interactive)
+      (ansi-color-apply-on-region (point-min) (point-max))))
+#+END_SRC
+
+* Solarized Theme
+#+BEGIN_SRC elisp
+  (use-package solarized-theme :ensure t
+    :config
+    (load-theme 'solarized-dark t))
+#+END_SRC
+
+* ~/.emacs.d/ladmods/ladmods.el
+:PROPERTIES:
+:ID: ladmods.el
+:END:
+#+BEGIN_SRC elisp
+(setq custom-file "~/.emacs-custom.el")
+
+(savehist-mode 1)
+(add-to-list 'savehist-additional-variables 'kill-ring) ;; for example
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
+;; https://www.emacswiki.org/emacs/FullScreen
+(defun lad/fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen 'fullboth))
+(lad/fullscreen)
+
+
+;; http://qerub.se/hiding-hidden-files-in-emacs-dired
+(require 'dired-x)
+(setq dired-omit-files "^\\...+$")
+(add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+
+(require 'cl) ;; for org-drill
+
+
+(provide 'ladmods)
+
+
+#+END_SRC
